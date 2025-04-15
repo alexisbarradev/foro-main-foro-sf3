@@ -1,6 +1,10 @@
 package com.backend.foro.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -10,12 +14,18 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "El texto del comentario no puede estar vacío")
+    @Size(min = 3, max = 500, message = "El comentario debe tener entre 3 y 500 caracteres")
     private String text;
+
+    @NotBlank(message = "El autor no puede estar vacío")
     private String author;
+
     private LocalDateTime createdAt;
 
+    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "topic_id")
+    @JoinColumn(name = "topic_id", nullable = false)
     private Topic topic;
 
     @PrePersist
