@@ -59,4 +59,15 @@ public ResponseEntity<List<Topic>> getTopicsByCategory(@PathVariable String name
     }
 }
 
+@DeleteMapping("/delete/{id}")
+public ResponseEntity<Void> deleteTopic(@PathVariable Long id) {
+    if (!topicRepository.existsById(id)) {
+        return ResponseEntity.notFound().build();
+    }
+
+    topicRepository.deleteById(id);
+    return ResponseEntity.noContent().build();
+}
+
+
 }
